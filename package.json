@@ -1,0 +1,27 @@
+{
+  "name": "simple-scrollbar",
+  "version": "1.0.0",
+  "description": "A scrollbar",
+  "main": "simple-scrollbar.js",
+  "bugs": {
+    "url": "https://github.com/marcel-dancak/simple-scrollbar/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Marcel Dancak"
+  },
+  "contributors": {
+    "name": "Marcel Dancak"
+  },
+  "homepage": "https://github.com/marcel-dancak/simple-scrollbar",
+  "files": [
+    "dist/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcel-dancak/simple-scrollbar.git"
+  },
+  "engines": {
+    "node": ">= 0.8.0"
+  }
+}
