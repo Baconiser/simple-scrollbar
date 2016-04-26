@@ -1,6 +1,6 @@
 {
   "name": "simple-scrollbar",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "A scrollbar",
   "main": "simple-scrollbar.js",
   "bugs": {
@@ -14,9 +14,6 @@
     "name": "Marcel Dancak"
   },
   "homepage": "https://github.com/marcel-dancak/simple-scrollbar",
-  "files": [
-    "dist/"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marcel-dancak/simple-scrollbar.git"
