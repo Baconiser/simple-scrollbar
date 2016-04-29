@@ -81,6 +81,9 @@
 
     this.el = d.createElement('div');
     this.el.setAttribute('class', 'ss-content');
+    var cssSize = (SimpleScrollbar.width > 0)? 'calc(100% + '+SimpleScrollbar.width+'px)' : '100%';
+    this.el.style.width = cssSize;
+    this.el.style.height = cssSize;
 
     this.wrapper.appendChild(this.el);
 
@@ -105,8 +108,8 @@
     this.el.addEventListener('scroll', this.moveHorizontalBar.bind(this));
     this.el.addEventListener('mouseenter', this.moveHorizontalBar.bind(this));
 
-    this.target.classList.add('ss-container'); 
-      
+    this.target.classList.add('ss-container');
+
     var css = window.getComputedStyle(el);
   	if (css['height'] === '0px' && css['max-height'] !== '0px') {
     	el.style.height = css['max-height'];
@@ -150,15 +153,27 @@
     }
   }
 
+  function detectScrollbarSize() {
+    // Create the measurement node
+    var scrollDiv = document.createElement("div");
+    scrollDiv.className = "scrollbar-measure";
+    document.body.appendChild(scrollDiv);
+    ss.width = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+    document.body.removeChild(scrollDiv);
+  }
+
   function initAll() {
     var nodes = d.querySelectorAll('*[ss-container]');
-
     for (var i = 0; i < nodes.length; i++) {
       initEl(nodes[i]);
     }
   }
 
-  d.addEventListener('DOMContentLoaded', initAll);
+  d.onreadystatechange = function () {
+    if (document.readyState === 'interactive') {
+      detectScrollbarSize();
+    }
+  };
   ss.initEl = initEl;
   ss.initAll = initAll;
 

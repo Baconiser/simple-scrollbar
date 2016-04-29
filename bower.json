@@ -1,8 +1,8 @@
 {
   "name": "SimpleScrollbar",
-  "version": "0.2.0",
+  "version": "0.6.0",
   "authors": [
-    "Vitor Buzinaro (https://github.com/buzinas)"
+    "Vitor Buzinaro, Marcel Dancak"
   ],
   "description": "Very simple and lightweight vanilla javascript library for creating a custom scrollbar cross-browser.",
   "main": [
@@ -11,7 +11,7 @@
   ],
   "moduleType": "globals",
   "license": "",
-  "homepage": "https://github.com/buzinas/simple-scrollbar/",
+  "homepage": "https://github.com/marcel-dancak/simple-scrollbar/",
   "private": true,
   "ignore": [
     "**/.*",
