@@ -1,9 +1,9 @@
 (function(w, d) {
   var raf = w.requestAnimationFrame || w.setImmediate || function(c) { return setTimeout(c, 0); };
 
-  function initEl(el) {
+  function initEl(el, mode) {
     if (el.hasOwnProperty('data-simple-scrollbar')) return;
-    Object.defineProperty(el, 'data-simple-scrollbar', new SimpleScrollbar(el));
+    Object.defineProperty(el, 'data-simple-scrollbar', new SimpleScrollbar(el, mode));
   }
 
   // Mouse drag handler
@@ -70,50 +70,45 @@
   }
 
   // Constructor
-  function ss(el) {
+  function ss(el, mode) {
     this.target = el;
-    
-    this.vBar = '<div class="ss-scroll vertical">';
-    this.hBar = '<div class="ss-scroll horizontal">';
 
     this.wrapper = d.createElement('div');
-    this.wrapper.setAttribute('class', 'ss-wrapper');
+    this.wrapper.setAttribute('class', 'ss-wrapper '+(mode? mode : 'horizontal vertical'));
 
-    this.el = d.createElement('div');
-    this.el.setAttribute('class', 'ss-content');
+    this.el = el;
+    this.el.classList.add('ss-content');
+
+    var parent = this.target.parentElement;
+    this.target.remove();
+    parent.appendChild(this.wrapper);
+    this.wrapper.appendChild(this.target);
+
     var cssSize = (SimpleScrollbar.width > 0)? 'calc(100% + '+SimpleScrollbar.width+'px)' : '100%';
-    this.el.style.width = cssSize;
-    this.el.style.height = cssSize;
-
-    this.wrapper.appendChild(this.el);
-
-    while (this.target.firstChild) {
-      this.el.appendChild(this.target.firstChild);
+    if (mode !== 'horizontal') {
+      this.wrapper.insertAdjacentHTML('beforeend', '<div class="ss-scroll vertical">');
+      this.vBar = this.wrapper.lastChild;
+      dragVerticalDealer(this.vBar, this);
+      this.moveVerticalBar();
+      this.el.addEventListener('scroll', this.moveVerticalBar.bind(this));
+      this.el.addEventListener('mouseenter', this.moveVerticalBar.bind(this));
+      this.el.style.width = cssSize;
     }
-    this.target.appendChild(this.wrapper);
 
-    this.target.insertAdjacentHTML('beforeend', this.vBar);
-    this.vBar = this.target.lastChild;
-
-    this.target.insertAdjacentHTML('beforeend', this.hBar);
-    this.hBar = this.target.lastChild;
-
-    dragVerticalDealer(this.vBar, this);
-    this.moveVerticalBar();
-    dragHorizontalDealer(this.hBar, this);
-    this.moveHorizontalBar();
-
-    this.el.addEventListener('scroll', this.moveVerticalBar.bind(this));
-    this.el.addEventListener('mouseenter', this.moveVerticalBar.bind(this));
-    this.el.addEventListener('scroll', this.moveHorizontalBar.bind(this));
-    this.el.addEventListener('mouseenter', this.moveHorizontalBar.bind(this));
-
-    this.target.classList.add('ss-container');
-
+    if (mode !== 'vertical') {
+      this.wrapper.insertAdjacentHTML('beforeend', '<div class="ss-scroll horizontal">');
+      this.hBar = this.wrapper.lastChild;
+      dragHorizontalDealer(this.hBar, this);
+      this.moveHorizontalBar();
+      this.el.addEventListener('scroll', this.moveHorizontalBar.bind(this));
+      this.el.addEventListener('mouseenter', this.moveHorizontalBar.bind(this));
+      this.el.style.height = cssSize;
+    }
+    /*
     var css = window.getComputedStyle(el);
   	if (css['height'] === '0px' && css['max-height'] !== '0px') {
     	el.style.height = css['max-height'];
-    }
+    }*/
   }
 
   ss.prototype = {
@@ -130,7 +125,7 @@
           _this.vBar.classList.add('ss-hidden');
         } else {
           _this.vBar.classList.remove('ss-hidden');
-          _this.vBar.style.cssText = 'height:' + (_this.scrollVerticalRatio) * 100 + '%; top:' + (_this.el.scrollTop / totalHeight ) * 100 + '%;right:-' + (_this.target.clientWidth - _this.vBar.offsetWidth) + 'px;';
+          _this.vBar.style.cssText = 'height:' + (_this.scrollVerticalRatio) * 100 + '%; top:' + (_this.el.scrollTop / totalHeight ) * 100 + '%;';
         }
       });
     },

@@ -10,10 +10,23 @@
 .ss-content {
   position: relative;
   left: 0;
+  height: 100%;
   padding: 0;
-  overflow: scroll;
   -moz-box-sizing : border-box;
   box-sizing: border-box;
+}
+
+.ss-wrapper.horizontal > .ss-content {
+  overflow-x: scroll;
+}
+.ss-wrapper:not(.horizontal) > .ss-content {
+  overflow-x: hidden;
+}
+.ss-wrapper.vertical > .ss-content {
+  overflow-y: scroll;
+}
+.ss-wrapper:not(.vertical) > .ss-content {
+  overflow-y: hidden;
 }
 
 .ss-scroll {
@@ -28,26 +41,24 @@
 }
 
 .ss-scroll.vertical {
-  position: relative;
+  position: absolute;
   width: 9px;
   top: 0;
-  transform: translate(-1px, 0);
+  right: 1px;
 }
 
 .ss-scroll.horizontal {
-  height: 9px;
   position: absolute;
-  bottom: 0;
-  left: 0px;
-  width: 50%;
-  transform: translate(0, -1px);
+  height: 9px;
+  bottom: 1px;
+  left: 0;
 }
 
 .ss-hidden {
   display: none;
 }
 
-.ss-container:hover .ss-scroll {
+.ss-wrapper:hover .ss-scroll {
   opacity: 1;
 }
 
