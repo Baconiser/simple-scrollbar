@@ -157,10 +157,10 @@
     document.body.removeChild(scrollDiv);
   }
 
-  function initAll() {
+  function initAll(mode) {
     var nodes = d.querySelectorAll('*[ss-container]');
     for (var i = 0; i < nodes.length; i++) {
-      initEl(nodes[i]);
+      initEl(nodes[i], mode);
     }
   }
 
